@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejericicio 1</title>
+</head>
+<body>
+    <div id="div" style="width: 100hv; height: 930px;"></div>
+    <script>
+        function raton(elEvento) {
+            switch (elEvento.button) {
+                case 0:
+                    alert('Has pulsado el click izquierdo');
+                    break;
+                case 1:
+                    alert('Has pulsado el click de la rueda');
+                    break;
+                case 2:
+                    alert('Has pulsado el click derecho');
+                    break;
+            }
+        }
+        window.onload = function() {
+            document.getElementById('div').onmousedown = raton;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 2</title>
+</head>
+<body>
+    <div style="border: 3px solid black; width: 200px; height: 200px; margin-left: auto; margin-right: auto;">
+        <div id="caja" style="position: relative; top: 0px; left: 0px; height: 100px; width: 100px; border: solid black 1px;"></div>
+    </div>
+</body>
+<script>
+    var pxTop = 0;
+    var pxLeft = 0;
+    function teclado(elEvento){
+        switch(elEvento.key){
+            case 'ArrowUp':
+                if(pxTop > 0) {
+                    document.getElementById('caja').style.top = `${pxTop -= 10}px`;
+                }
+                break;
+            case 'ArrowDown':
+                if(pxTop < 100) {
+                    document.getElementById('caja').style.top = `${pxTop += 10}px`;
+                }
+                break;
+            case 'ArrowLeft':
+                if(pxLeft > 0){
+                    document.getElementById('caja').style.left = `${pxLeft -= 10}px`;
+                }
+                break;
+            case 'ArrowRight':
+                if(pxLeft < 100){
+                    document.getElementById('caja').style.left = `${pxLeft += 10}px`;
+                }
+            break;
+        }
+    }
+    window.onload = function() {
+        document.onkeydown = teclado;
+    }
+</script>
+</html>

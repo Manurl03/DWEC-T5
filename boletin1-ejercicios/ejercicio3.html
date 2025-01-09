@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 3</title>
+</head>
+<body>
+    <div id="div" style="width: 100%; height: 930px;">
+    </div>
+    <script>
+        function raton(event) {
+            event.preventDefault();
+            alert('El boton derecho está deshabilitado');
+        }
+
+        window.onload = function() {
+            const div = document.getElementById('div');
+            div.oncontextmenu = raton; // Asignar evento onmousedown
+        }
+    </script>
+</body>
+</html>
