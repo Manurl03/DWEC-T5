@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ejercicio 7</title>
+</head>
+<body>
+  <img id="imagen" style="height: 200px; width: 200px;" src="imagen.jpg" alt="imagen">
+  <p id="mensaje" style="display: none;">La imagen no se ha cargado correctamente</p>
+  <script>
+    window.onload = function () {
+      document.getElementById('imagen').addEventListener('error', () => {
+        document.getElementById('mensaje').style.display = 'block'
+      });
+    }
+  </script>
+</body>
+</html>
