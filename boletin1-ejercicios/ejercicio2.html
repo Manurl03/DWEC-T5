@@ -18,21 +18,25 @@
             case 'ArrowUp':
                 if(pxTop > 0) {
                     document.getElementById('caja').style.top = `${pxTop -= 10}px`;
+                    console.log('Arriba');
                 }
                 break;
             case 'ArrowDown':
                 if(pxTop < 100) {
                     document.getElementById('caja').style.top = `${pxTop += 10}px`;
+                    console.log('Abajo');
                 }
                 break;
             case 'ArrowLeft':
                 if(pxLeft > 0){
                     document.getElementById('caja').style.left = `${pxLeft -= 10}px`;
+                    console.log('Izquierda');
                 }
                 break;
             case 'ArrowRight':
                 if(pxLeft < 100){
                     document.getElementById('caja').style.left = `${pxLeft += 10}px`;
+                    console.log('Derecha');
                 }
             break;
         }

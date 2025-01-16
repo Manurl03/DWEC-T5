@@ -9,14 +9,13 @@
     <div id="div" style="width: 100%; height: 930px;">
     </div>
     <script>
-        function raton(event) {
-            event.preventDefault();
+        function raton(elEvento) {
+            elEvento.preventDefault();
             alert('El boton derecho está deshabilitado');
         }
 
         window.onload = function() {
-            const div = document.getElementById('div');
-            div.oncontextmenu = raton; // Asignar evento onmousedown
+            document.getElementById('div').oncontextmenu = raton;
         }
     </script>
 </body>
