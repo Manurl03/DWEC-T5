@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 17</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            background-color: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            width: 100%;
+        }
+
+        main {
+            padding: 20px;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-top: 10px;
+        }
+
+        input,
+        select,
+        button {
+            margin-top: 5px;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #previa,
+        #todo {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Encuesta de JMRodríguez</h1>
+        <p id="mensajeBienvenida">¡Bienvenido!</p>
+    </header>
+    <main>
+        <form id="formulario">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required>
+            <br>
+            <label for="color">Color Favorito:</label>
+            <select id="color" name="color" required>
+                <option value="">Seleccione un color</option>
+                <option value="Rojo">Rojo</option>
+                <option value="Verde">Verde</option>
+                <option value="Azul">Azul</option>
+            </select>
+            <br>
+            <label for="notificaciones">¿Desea recibir notificaciones?</label>
+            <input type="checkbox" id="notificaciones" name="notificaciones">
+            <br>
+            <button type="submit">Enviar</button>
+        </form>
+        <div id="previa">
+            <h2>Vista Previa</h2>
+            <p id="nombrePrevia"></p>
+            <p id="colorPrevia"></p>
+        </div>
+        <div id="todo"></div>
+    </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            var mensajeBienvenida = document.getElementById('mensajeBienvenida');
+            setTimeout(function () {
+                mensajeBienvenida.style.display = 'none';
+            }, 3000);
+
+            var nombreInput = document.getElementById('nombre');
+            var color = document.getElementById('color');
+            var formulario = document.getElementById('formulario');
+            var nombrePrevia = document.getElementById('nombrePrevia');
+            var colorPrevia = document.getElementById('colorPrevia');
+            var previa = document.getElementById('previa');
+            var todo = document.getElementById('todo');
+
+            nombreInput.addEventListener('input', () => {
+                nombrePrevia.textContent = `Nombre: ${nombreInput.value}`;
+            });
+
+            color.addEventListener('change', () => {
+                colorPrevia.textContent = `Color Favorito: ${color.value}`;
+            });
+
+
+            formulario.addEventListener('submit', (event) => {
+                event.preventDefault();
+                if (nombreInput.value && color.value) {
+                    todo.innerHTML = `
+                <h2>Resumen</h2>
+                <p>Nombre: ${nombreInput.value}</p>
+                <p>Color Favorito: ${color.value}</p>
+                <p>Notificaciones: ${document.getElementById('notificaciones').checked ? 'Sí' : 'No'}</p>`;
+                } else {
+                    alert('Por favor, complete todos los campos requeridos.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
