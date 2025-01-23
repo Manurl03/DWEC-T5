@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Registro</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            width: 300px;
+        }
+
+        label {
+            margin-top: 10px;
+        }
+
+        input,
+        button {
+            margin-top: 5px;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        input:focus,
+        button:focus {
+            outline: 2px solid #007BFF;
+            outline-offset: 2px;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        .error {
+            color: red;
+            font-size: 12px;
+        }
+
+        .intereses-container,
+        .genero-container {
+            margin-top: 10px;
+        }
+
+        .intereses-container input,
+        .genero-container input {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Formulario de Registro</h1>
+    <form id="registroForm">
+        <label for="nombre">Nombre Completo:</label>
+        <input type="text" id="nombre" name="nombre" required>
+        <span class="error" id="nombreError"></span>
+
+        <label for="contrasena">Contraseña:</label>
+        <input type="password" id="contrasena" name="contrasena" required>
+        <span class="error" id="contrasenaError"></span>
+
+        <label for="fechaNacimiento">Fecha de Nacimiento:</label>
+        <input type="date" id="fechaNacimiento" name="fechaNacimiento" required>
+        <span class="error" id="fechaNacimientoError"></span>
+
+        <label>Intereses:</label>
+        <div class="intereses-container">
+            <label><input type="checkbox" name="intereses" value="Deporte"> Deporte</label>
+            <label><input type="checkbox" name="intereses" value="Música"> Música</label>
+            <label><input type="checkbox" name="intereses" value="Lectura"> Lectura</label>
+        </div>
+        <span class="error" id="interesesError"></span>
+
+        <label>Género:</label>
+        <div class="genero-container">
+            <label><input type="radio" name="genero" value="Masculino"> Masculino</label>
+            <label><input type="radio" name="genero" value="Femenino"> Femenino</label>
+        </div>
+        <span class="error" id="generoError"></span>
+
+        <button type="submit" id="botonSubir" disabled>Registrar</button>
+    </form>
+    <script>
+        var nombre = document.getElementById('nombre');
+        var contrasena = document.getElementById('contrasena');
+        var fechaNacimiento = document.getElementById('fechaNacimiento');
+        var intereses = document.querySelectorAll('input[name="intereses"]');
+        var genero = document.querySelectorAll('input[name="genero"]');
+        var botonSubir = document.getElementById('botonSubir');
+    
+        var nombreError = document.getElementById('nombreError');
+        var contrasenaError = document.getElementById('contrasenaError');
+        var fechaNacimientoError = document.getElementById('fechaNacimientoError');
+        var interesesError = document.getElementById('interesesError');
+        var generoError = document.getElementById('generoError');
+    
+        function validarNombre() {
+            if (nombre.value.length < 3) {
+                nombreError.textContent = 'El nombre debe tener al menos 3 caracteres';
+            } else {
+                nombreError.textContent = '';
+            }
+        }
+    
+        function validarContrasena() {
+            var expreg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+            if (!expreg.test(contrasena.value)) {
+                contrasenaError.textContent = 'La contraseña debe tener al menos 8 caracteres, incluir una letra mayúscula, una minúscula y un número.';
+            } else {
+                contrasenaError.textContent = '';
+            }
+        }
+    
+        function validarFecha() {
+            if (!fechaNacimiento.value) {
+                fechaNacimientoError.textContent = 'Por favor, introduzca una fecha de nacimiento.';
+                return;
+            }
+    
+            var fechaInput = new Date(fechaNacimiento.value);
+            var hoy = new Date();
+    
+            if (isNaN(fechaInput.getTime())) {
+                fechaNacimientoError.textContent = 'Fecha no válida. Por favor, introduzca una fecha correcta.';
+                return;
+            }
+    
+            var edad = hoy.getFullYear() - fechaInput.getFullYear();
+            var mes = hoy.getMonth() - fechaInput.getMonth();
+            if (mes < 0 || (mes === 0 && hoy.getDate() < fechaInput.getDate())) {
+                edad--;
+            }
+    
+            if (edad < 18) {
+                fechaNacimientoError.textContent = 'Debe tener al menos 18 años.';
+            } else {
+                fechaNacimientoError.textContent = '';
+            }
+        }
+    
+        function validarIntereses() {
+            var algunoSeleccionado = Array.from(intereses).some(checkbox => checkbox.checked);
+            if (!algunoSeleccionado) {
+                interesesError.textContent = 'Debe seleccionar al menos un interés.';
+            } else {
+                interesesError.textContent = '';
+            }
+        }
+    
+        function validarGenero() {
+            var generoSeleccionado = Array.from(genero).some(radio => radio.checked);
+            if (!generoSeleccionado) {
+                generoError.textContent = 'Debe seleccionar un género.';
+            } else {
+                generoError.textContent = '';
+            }
+        }
+    
+        function habilitarBoton() {
+            if (
+                nombreError.textContent === '' &&
+                contrasenaError.textContent === '' &&
+                fechaNacimientoError.textContent === '' &&
+                interesesError.textContent === '' &&
+                generoError.textContent === ''
+            ) {
+                botonSubir.disabled = false;
+            } else {
+                botonSubir.disabled = true;
+            }
+        }
+        
+        function validar() {
+            validarNombre();
+            validarContrasena();
+            validarFecha();
+            validarIntereses();
+            validarGenero();
+            habilitarBoton();
+        }
+    
+        nombre.addEventListener('input', validar);
+        contrasena.addEventListener('input', validar);
+        fechaNacimiento.addEventListener('input', validar);
+        intereses.forEach(checkbox => checkbox.addEventListener('change', validar));
+        genero.forEach(radio => radio.addEventListener('change', validar));
+    </script>
+    
+    
+</body>
+
+</html>
