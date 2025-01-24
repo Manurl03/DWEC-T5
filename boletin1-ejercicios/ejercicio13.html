@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio13</title>
+    <style>
+        .error {
+            color: red;
+            font-size: 12px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <form id="formulario" action=# method="post">
+        <p>
+            <label for="dni">DNI:</label>
+            <input type="text" id="dni" name="dni" required>
+            (Formato Válido: 99.999.999-X)
+        </p>
+        <span class="error" id="dniError"></span>
+
+        <p>
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required>
+            (Introduzca al menos un nombre y un apellido. Max: 2 nombres y 2 apellidos)
+        </p>
+        <span class="error" id="nombreError"></span>
+
+        <p>
+            <label for="fechaNacimiento">Fecha Nacimiento:</label>
+            <input type="text" id="fechaNacimiento" name="fechaNacimiento" required>
+            (Formato válido: dd/mm/yyyy)
+        </p>
+        <span class="error" id="fechaNacimientoError"></span>
+
+        <p>
+            <label for="email">E-Mail:</label>
+            <input type="text" id="email" name="email" required>
+            (Formato válido: xxx@yyy.zzz)
+        </p>
+        <span class="error" id="emailError"></span>
+        
+        <p>
+            <label for="web">Página web:</label>
+            <input type="text" id="web" name="web" required>
+            (Formato válido: http://www.xxxx.yyy)
+        </p>
+        <span class="error" id="webError"></span>
+
+        <p>
+            <label for="contrasena">Contraseña:</label>
+            <input type="password" id="contrasena" name="contrasena" required>
+            (Debe contener entre 8 y 10 caracteres)
+        </p>        
+        <span class="error" id="contrasenaError"></span>
+
+        <p>
+            <label for="confirmarContrasena">Confirmar contraseña:</label>
+            <input type="password" id="confirmarContrasena" name="confirmarContrasena" required>
+            (Debe contener entre 8 y 10 caracteres)
+        </p>        
+        <span class="error" id="confirmarContrasenaError"></span>
+
+        <button type="submit">GUARDAR</button>
+        <button type="button" id="ver">VER</button>
+
+        <h3 id="enviado" style="display: none;"></h3>
+
+    </form>
+    <script>
+        var dni = document.getElementById('dni');
+        var nombre = document.getElementById('nombre');
+        var fechaNacimiento = document.getElementById('fechaNacimiento');
+        var email = document.getElementById('email');
+        var web = document.getElementById('web');
+        var contrasena = document.getElementById('contrasena');
+        var confirmarContrasena = document.getElementById('confirmarContrasena');
+
+        var dniError = document.getElementById('dniError');
+        var nombreError = document.getElementById('nombreError');
+        var fechaNacimientoError = document.getElementById('fechaNacimientoError');
+        var emailError = document.getElementById('emailError');
+        var webError = document.getElementById('webError');
+        var contrasenaError = document.getElementById('contrasenaError');
+        var confirmarContrasenaError = document.getElementById('confirmarContrasenaError');
+
+        function mostrarError(errorId, mensaje) {
+            errorId.textContent = mensaje;
+            errorId.style.display = 'block';
+        }
+
+        function ocultarError(errorId) {
+            errorId.textContent = '';
+            errorId.style.display = 'none';
+        }
+
+        function validarInput(input, expReg, errorId, mensaje) {
+            input.addEventListener('blur', function() {
+                if (!expReg.test(input.value)) {
+                    mostrarError(errorId, mensaje);
+                    input.value = '';
+                } else {
+                    ocultarError(errorId);
+                }
+            });
+        }
+
+        validarInput(dni, /^\d{2}\.\d{3}\.\d{3}-[A-Z]$/, dniError, 'Formato de DNI incorrecto');
+        validarInput(nombre, /^[a-zA-ZáéíóúÁÉÍÓÚ]+\s[a-zA-ZáéíóúÁÉÍÓÚ]+(\s[a-zA-ZáéíóúÁÉÍÓÚ]+)?(\s[a-zA-ZáéíóúÁÉÍÓÚ]+)?$/, nombreError, 'Formato de nombre incorrecto');
+        validarInput(fechaNacimiento, /^\d{2}\/\d{2}\/\d{4}$/, fechaNacimientoError, 'Formato de fecha incorrecto');
+        validarInput(email, /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, emailError, 'Formato de email incorrecto');
+        validarInput(web, /^http:\/\/www\.[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, webError, 'Formato de web incorrecto');
+        validarInput(contrasena, /^.{8,10}$/, contrasenaError, 'Formato de contraseña incorrecto');
+        validarInput(confirmarContrasena, /^.{8,10}$/, confirmarContrasenaError, 'Formato de confirmación de contraseña incorrecto');
+
+        confirmarContrasena.addEventListener('blur', function() {
+            if (contrasena.value !== confirmarContrasena.value) {
+                mostrarError(confirmarContrasenaError, 'Las contraseñas no coinciden');
+                confirmarContrasena.value = '';
+            } else {
+                ocultarError(confirmarContrasenaError);
+            }
+        });
+
+        document.getElementById('formulario').addEventListener('submit', function(event) {
+            event.preventDefault();
+            document.getElementById('enviado').textContent = 'Formulario enviado correctamente';
+            document.getElementById('enviado').style.display = 'block';
+        });
+    </script>
+</body>
+</html>

@@ -4,6 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        p:first::first-letter {
+            text-transform: uppercase;
+        }
+    </style>
     <title>Formulario</title>
 </head>
 
@@ -22,13 +27,13 @@
 
         <p>Elige un color:</p>
 
-        <input type="radio" id="rojo" name="color" value="rojo">
+        <input type="radio" id="rojo" name="color" value="Rojo">
         <label for="rojo">Rojo</label><br>
 
-        <input type="radio" id="verde" name="color" value="verde">
+        <input type="radio" id="verde" name="color" value="Verde">
         <label for="verde">Verde</label><br>
 
-        <input type="radio" id="azul" name="color" value="azul">
+        <input type="radio" id="azul" name="color" value="Azul">
         <label for="azul">Azul</label>
 
         <br>
@@ -36,28 +41,28 @@
 
         <label for="asignatura">Selecciona una asignatura:</label>
         <select id="asignatura" name="asignatura">
-            <option value="matematicas">Matemáticas</option>
-            <option value="lengua">Lengua</option>
-            <option value="historia">Historia</option>
+            <option value="Matemáticas">Matemáticas</option>
+            <option value="Lengua">Lengua</option>
+            <option value="Historia">Historia</option>
         </select>
 
         <br>
 
         <p>Selecciona los dias con disponibilidad:</p>
 
-        <input type="checkbox" id="lunes" name="dias" value="lunes">
+        <input type="checkbox" id="lunes" name="dias" value="Lunes">
         <label for="lunes">Lunes</label><br>
 
-        <input type="checkbox" id="martes" name="dias" value="martes">
+        <input type="checkbox" id="martes" name="dias" value="Martes">
         <label for="martes">Martes</label><br>
 
-        <input type="checkbox" id="miercoles" name="dias" value="miercoles">
+        <input type="checkbox" id="miercoles" name="dias" value="Miércoles">
         <label for="miercoles">Miércoles</label><br>
 
-        <input type="checkbox" id="jueves" name="dias" value="jueves">
+        <input type="checkbox" id="jueves" name="dias" value="Jueves">
         <label for="jueves">Jueves</label><br>
 
-        <input type="checkbox" id="viernes" name="dias" value="viernes">
+        <input type="checkbox" id="viernes" name="dias" value="Viernes">
         <label for="viernes">Viernes</label>
 
         <br>
@@ -65,11 +70,11 @@
 
         <label for="diaPreferente">Selecciona el día preferente:</label>
         <select id="diaPreferente" name="diaPreferente">
-            <option value="lunes">Lunes</option>
-            <option value="martes">Martes</option>
-            <option value="miercoles">Miércoles</option>
-            <option value="jueves">Jueves</option>
-            <option value="viernes">Viernes</option>
+            <option value="Lunes">Lunes</option>
+            <option value="Martes">Martes</option>
+            <option value="Miércoles">Miércoles</option>
+            <option value="Jueves">Jueves</option>
+            <option value="Viernes">Viernes</option>
         </select>
 
         <br>
@@ -83,6 +88,37 @@
     <div id="result" style="display: none;"></div>
 
     <script>
+        let ultimoDiaMarcado = '';
+
+        document.querySelectorAll('input[name="dias"]').forEach(dia => {
+            dia.addEventListener('change', function () {
+                if (this.checked) {
+                    ultimoDiaMarcado = this.value;
+                }
+            });
+        });
+        document.querySelectorAll('input[name="color"]').forEach(color => {
+            color.addEventListener('change', function () {
+                if (this.checked) {
+                    ultimoColorMarcado = this.value;
+                    switch (ultimoColorMarcado) {
+                        case 'Rojo':
+                            document.getElementById('formulario').style.backgroundColor = 'red';
+                            break;
+                        case 'Verde':
+                            document.getElementById('formulario').style.backgroundColor = 'green';
+                            break;
+                        case 'Azul':
+                            document.getElementById('formulario').style.backgroundColor = 'blue';
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                
+            });
+        });
+
         document.getElementById('formulario').addEventListener('submit', function (event) {
             event.preventDefault();
             document.getElementById('formulario').style.display = 'none';
@@ -91,18 +127,17 @@
             var color = document.querySelector('input[name="color"]:checked');
             var asignatura = document.getElementById('asignatura');
             var dias = document.querySelectorAll('input[name="dias"]:checked');
-            var diaPreferente = document.getElementById('diaPreferente');
             var resultado = document.getElementById('result');
 
             resultado.innerHTML = '<h2>Información</h2>';
             resultado.innerHTML += '<p>Nombre: ' + nombre.value + '</p>';
             resultado.innerHTML += '<p>Mensaje: ' + mensaje.value + '</p>';
-            color ? resultado.innerHTML += '<p>Color: ' + color.value + '</p>' 
-            : resultado.innerHTML += '<p>Color: </p>';
+            color ? resultado.innerHTML += '<p>Color: ' + color.value + '</p>'
+                : resultado.innerHTML += '<p>Color: </p>';
             resultado.innerHTML += '<p>Asignatura: ' + asignatura.value + '</p>';
             if (asignatura.value === 'matematicas') {
                 resultado.innerHTML += '<p>Profesor: Antonio Lozano</p>';
-            } else if (asignatura.value === 'lengua') {
+            } else if (asignatura.value === 'Lengua') {
                 resultado.innerHTML += '<p>Profesor: Benjamin David</p>';
             } else {
                 resultado.innerHTML += '<p>Profesor: Victor Lirola</p>';
@@ -115,7 +150,7 @@
                 }
             });
             resultado.innerHTML += '</p>';
-            resultado.innerHTML += '<p>Día preferente: ' + diaPreferente.value + '</p>';
+            resultado.innerHTML += '<p>Día Preferente: ' + ultimoDiaMarcado + '</p>';
             resultado.style.display = 'block';
         });
     </script>
