@@ -145,9 +145,17 @@
             }
         });
 
-        document.DOMContentLoaded = function() {
-            
-        }
+        document.addEventListener('DOMContentLoaded', function() {
+            var contador = getCookie('contadorVisitas');
+            if (contador) {
+                contador = parseInt(contador) + 1;
+            } else {
+                contador = 1;
+            }
+            setCookie('contadorVisitas', contador, 5);
+            return contador;
+            document.getElementById('contadorVisitas').textContent = 'Has visitado esta página ' + contador + ' veces.';
+        });
 
         document.getElementById('formulario').addEventListener('submit', function(event) {
             event.preventDefault();
@@ -166,7 +174,8 @@
                 'Nombre: ' + getCookie('nombre') + '\n' +
                 'Fecha de Nacimiento: ' + getCookie('fechaNacimiento') + '\n' +
                 'Email: ' + getCookie('email') + '\n' +
-                'Página Web: ' + getCookie('web')
+                'Página Web: ' + getCookie('web') + '\n' +
+                'Visitas: ' + getCookie('contadorVisitas')
             );
         });
     </script>

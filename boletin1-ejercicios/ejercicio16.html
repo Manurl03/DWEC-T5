@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encuesta de Sistemas Operativos</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding-left: 5px;}
+        .barra { width: 100px; border: 1px solid black; border-radius: 5px; margin: 5px 5px; padding: 2px; }
+        .barra div { height: 20px; background: green; border-radius: 5px; text-align: center; color: white; line-height: 20px; }
+    </style>
+</head>
+<body>
+
+    <h2>¿Qué sistema operativo móvil te gusta más?</h2>
+    <form id="formulario">
+        <input type="radio" name="so" value="iOS" required> iOS 
+        <br>
+        <input type="radio" name="so" value="Android"> Android 
+        <br>
+        <input type="radio" name="so" value="Windows Phone"> Windows Phone 
+        <br>
+        <input type="radio" name="so" value="Otros"> Otros 
+        <br>
+        <br>
+        <button type="submit">Votar</button>
+    </form>
+
+    <h3>Resultados:</h3>
+    <div id="resultados"></div>
+
+    <script>
+        function setCookie(name, value, days) {
+            const date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000)); 
+            const expires = "expires=" + date.toUTCString();
+            document.cookie = name + "=" + encodeURIComponent(value) + ";" + expires + ";path=/";
+        }
+
+        function getCookie(name) {
+            const nameEQ = name + "=";
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                let cookie = cookies[i].trim();
+                if (cookie.indexOf(nameEQ) === 0) {
+                    return decodeURIComponent(cookie.substring(nameEQ.length));
+                }
+            }
+            return null;
+        }
+
+        function getVotos() {
+            return {
+                "iOS": parseInt(getCookie('votos_iOS')) || 0,
+                "Android": parseInt(getCookie('votos_Android')) || 0,
+                "Windows Phone": parseInt(getCookie('votos_Windows_Phone')) || 0,
+                "Otros": parseInt(getCookie('votos_Otros')) || 0
+            };
+        }
+
+        function guardarVotos(votos) {
+            setCookie('votos_iOS', votos["iOS"], 365);
+            setCookie('votos_Android', votos["Android"], 365);
+            setCookie('votos_Windows_Phone', votos["Windows Phone"], 365);
+            setCookie('votos_Otros', votos["Otros"], 365);
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const form = document.getElementById("formulario");
+            const resultadosDiv = document.getElementById("resultados");
+
+            let votos = getVotos();
+
+            function mostrarResultados() {
+                resultadosDiv.innerHTML = "";
+                let totalVotos = Object.values(votos).reduce((a, b) => a + b, 0);
+
+                for (let so in votos) {
+                    let porcentaje = totalVotos > 0 ? (votos[so] / totalVotos) * 100 : 0;
+                    resultadosDiv.innerHTML += `
+                        <p>${so}: ${votos[so]} votos (${porcentaje.toFixed(2)}%)</p>
+                        <div class="barra">
+                            <div style="width: ${porcentaje}%;"></div>
+                        </div>
+                    `;
+                }
+            }
+
+            form.addEventListener("submit", function(event) {
+                event.preventDefault();
+                const soSeleccionado = form.elements["so"].value;
+                votos[soSeleccionado]++;
+                guardarVotos(votos);
+                mostrarResultados();
+            });
+
+            mostrarResultados();
+        });
+    </script>
+</body>
+</html>
